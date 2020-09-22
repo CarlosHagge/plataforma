@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour
 {
@@ -30,22 +31,22 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
+        Vector3 movement = new Vector3(CrossPlatformInputManager.GetAxis("Horizontal"), 0f, 0f);
         transform.position += movement * Time.deltaTime * Speed;
         
-        if(Input.GetAxis("Horizontal") > 0f)
+        if(CrossPlatformInputManager.GetAxis("Horizontal") > 0f)
         {
             anim.SetBool("Walk", true);
             transform.eulerAngles = new Vector3(0f, 0f, 0f);
         }
 
-        if(Input.GetAxis("Horizontal") < 0f)
+        if(CrossPlatformInputManager.GetAxis("Horizontal") < 0f)
         {
             anim.SetBool("Walk", true);
             transform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
 
-        if(Input.GetAxis("Horizontal") == 0f)
+        if(CrossPlatformInputManager.GetAxis("Horizontal") == 0f)
         {
             anim.SetBool("Walk", false);
         }
@@ -53,7 +54,7 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        if(Input.GetButtonDown("Jump"))
+        if(CrossPlatformInputManager.GetButtonDown("Jump"))
         {
             if(!isJumping)
             {
@@ -78,9 +79,14 @@ public class Player : MonoBehaviour
     {
         if(collision.gameObject.layer == 8)
         {
-                isJumping = false;
-                anim.SetBool("Jump", false);
-        }       
+            isJumping = false;
+            anim.SetBool("Jump", false);
+        }
+
+        if(collision.gameObject.tag == "Trap")
+        {
+            Timer.timeLeft -= 3;
+        }    
     }
     void OnCollisionExit2D(Collision2D collision)
     {

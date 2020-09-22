@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
 
     public void UpdateScoreText()
     {
-        scoreText.text = string.Concat("Placar: ", totalScore.ToString());
+        scoreText.text = string.Concat("Placar: ", totalScore);
     }
 
     // Update is called once per frame
